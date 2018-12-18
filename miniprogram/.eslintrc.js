@@ -24,14 +24,16 @@ module.exports = {
         ],
         "semi": [
             "error",
-            "always"
-        ]
+            "never"
+        ],
+        "no-console": "warn"
     },
     "globals": {
         "wx": false,
         "App": false,
         "Page": false,
         "getApp": false,
-        "Component": false
+        "Component": false,
+        "getCurrentPages": false,
     }
 };

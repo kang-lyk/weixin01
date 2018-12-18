@@ -1,13 +1,13 @@
 // pages/userConsole/userConsole.js
 Page({
 
-  data: {
-    openid: ''
-  },
+    data: {
+        openid: ''
+    },
 
-  onLoad: function (options) {
-    this.setData({
-      openid: getApp().globalData.openid
-    })
-  }
+    onLoad: function () {
+        this.setData({
+            openid: getApp().globalData.openid
+        })
+    }
 })

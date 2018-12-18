@@ -4,23 +4,23 @@ const app = getApp()
 
 Page({
 
-  data: {
-    step: 1,
-    counterId: '',
-    openid: '',
-    count: null,
-    queryResult: '',
-  },
+    data: {
+        step: 1,
+        counterId: '',
+        openid: '',
+        count: null,
+        queryResult: '',
+    },
 
-  onLoad: function (options) {
-    if (app.globalData.openid) {
-      this.setData({
-        openid: app.globalData.openid
-      })
-    }
-  },
+    onLoad: function () {
+        if (app.globalData.openid) {
+            this.setData({
+                openid: app.globalData.openid
+            })
+        }
+    },
 
-  onAdd: function () {
+    onAdd: function () {
     // const db = wx.cloud.database()
     // db.collection('counters').add({
     //   data: {
@@ -45,9 +45,9 @@ Page({
     //     console.error('[数据库] [新增记录] 失败：', err)
     //   }
     // })
-  },
+    },
 
-  onQuery: function() {
+    onQuery: function() {
     // const db = wx.cloud.database()
     // // 查询当前用户所有的 counters
     // db.collection('counters').where({
@@ -67,9 +67,9 @@ Page({
     //     console.error('[数据库] [查询记录] 失败：', err)
     //   }
     // })
-  },
+    },
 
-  onCounterInc: function() {
+    onCounterInc: function() {
     // const db = wx.cloud.database()
     // const newCount = this.data.count + 1
     // db.collection('counters').doc(this.data.counterId).update({
@@ -86,9 +86,9 @@ Page({
     //     console.error('[数据库] [更新记录] 失败：', err)
     //   }
     // })
-  },
+    },
 
-  onCounterDec: function() {
+    onCounterDec: function() {
     // const db = wx.cloud.database()
     // const newCount = this.data.count - 1
     // db.collection('counters').doc(this.data.counterId).update({
@@ -105,9 +105,9 @@ Page({
     //     console.error('[数据库] [更新记录] 失败：', err)
     //   }
     // })
-  },
+    },
 
-  onRemove: function() {
+    onRemove: function() {
     // if (this.data.counterId) {
     //   const db = wx.cloud.database()
     //   db.collection('counters').doc(this.data.counterId).remove({
@@ -133,61 +133,61 @@ Page({
     //     title: '无记录可删，请见创建一个记录',
     //   })
     // }
-  },
+    },
 
-  nextStep: function () {
+    nextStep: function () {
     // 在第一步，需检查是否有 openid，如无需获取
-    if (this.data.step === 1 && !this.data.openid) {
-      wx.cloud.callFunction({
-        name: 'login',
-        data: {},
-        success: res => {
-          app.globalData.openid = res.result.openid
-          this.setData({
-            step: 2,
-            openid: res.result.openid
-          })
-        },
-        fail: err => {
-          wx.showToast({
-            icon: 'none',
-            title: '获取 openid 失败，请检查是否有部署 login 云函数',
-          })
-          console.log('[云函数] [login] 获取 openid 失败，请检查是否有部署云函数，错误信息：', err)
+        if (this.data.step === 1 && !this.data.openid) {
+            wx.cloud.callFunction({
+                name: 'login',
+                data: {},
+                success: res => {
+                    app.globalData.openid = res.result.openid
+                    this.setData({
+                        step: 2,
+                        openid: res.result.openid
+                    })
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: '获取 openid 失败，请检查是否有部署 login 云函数',
+                    })
+                    console.log('[云函数] [login] 获取 openid 失败，请检查是否有部署云函数，错误信息：', err)
+                }
+            })
+        } else {
+            const callback = this.data.step !== 6 ? function() {} : function() {
+                console.group('数据库文档')
+                console.log('https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/database.html')
+                console.groupEnd()
+            }
+
+            this.setData({
+                step: this.data.step + 1
+            }, callback)
         }
-      })
-    } else {
-      const callback = this.data.step !== 6 ? function() {} : function() {
-        console.group('数据库文档')
-        console.log('https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/database.html')
-        console.groupEnd()
-      }
+    },
 
-      this.setData({
-        step: this.data.step + 1
-      }, callback)
+    prevStep: function () {
+        this.setData({
+            step: this.data.step - 1
+        })
+    },
+
+    goHome: function() {
+        const pages = getCurrentPages()
+        if (pages.length === 2) {
+            wx.navigateBack()
+        } else if (pages.length === 1) {
+            wx.redirectTo({
+                url: '../index/index',
+            })
+        } else {
+            wx.reLaunch({
+                url: '../index/index',
+            })
+        }
     }
-  },
-
-  prevStep: function () {
-    this.setData({
-      step: this.data.step - 1
-    })
-  },
-
-  goHome: function() {
-    const pages = getCurrentPages()
-    if (pages.length === 2) {
-      wx.navigateBack()
-    } else if (pages.length === 1) {
-      wx.redirectTo({
-        url: '../index/index',
-      })
-    } else {
-      wx.reLaunch({
-        url: '../index/index',
-      })
-    }
-  }
 
 })

@@ -4,29 +4,29 @@ const app = getApp()
 
 Page({
 
-  data: {
-    fileID: '',
-    cloudPath: '',
-    imagePath: '',
-  },
+    data: {
+        fileID: '',
+        cloudPath: '',
+        imagePath: '',
+    },
 
-  onLoad: function (options) {
+    onLoad: function () {
 
-    const {
-      fileID,
-      cloudPath,
-      imagePath,
-    } = app.globalData
+        const {
+            fileID,
+            cloudPath,
+            imagePath,
+        } = app.globalData
 
-    this.setData({
-      fileID,
-      cloudPath,
-      imagePath,
-    })
+        this.setData({
+            fileID,
+            cloudPath,
+            imagePath,
+        })
 
-    console.group('文件存储文档')
-    console.log('https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/storage.html')
-    console.groupEnd()
-  },
+        console.group('文件存储文档')
+        console.log('https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/storage.html')
+        console.groupEnd()
+    },
 
 })
