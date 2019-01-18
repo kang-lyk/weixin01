@@ -1,0 +1,22 @@
+.userHeader {
+    display: flex;
+    border-radius: 8rpx;
+    background-color: rgb(219, 179, 0);
+    padding: 30rpx 20rpx;
+    margin: 20rpx;
+}
+.userHeader-img {
+    border-radius: 50%;
+    width: 80rpx;
+    height: 80rpx;
+    border: 1rpx solid #fff;
+    overflow: hidden;
+}
+.userHeader-name {
+    line-height: 80rpx;
+    padding-left: 20rpx;
+    color: #fff;
+}
+.registerFrom {
+    padding: 0 20rpx;
+}

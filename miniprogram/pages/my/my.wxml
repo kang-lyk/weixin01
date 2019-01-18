@@ -1,0 +1,15 @@
+<view class="userHeader">
+    <open-data class="userHeader-img" lang="zh_CN" type="userAvatarUrl"></open-data>
+    <open-data class="userHeader-name" lang="zh_CN" type="userNickName"></open-data>
+</view>
+<view class="registerFrom">
+    <button 
+        open-type="getUserInfo" 
+        type="warn"
+        loading="{{loading}}"
+        disabled="{{disabled}}"
+        bindgetuserinfo="register"
+    >
+        登录
+    </button>
+</view>

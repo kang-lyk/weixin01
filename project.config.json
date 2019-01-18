@@ -13,7 +13,7 @@
 	},
 	"appid": "wxbe4df23fc62847a9",
 	"projectname": "weixin01",
-	"libVersion": "2.2.5",
+	"libVersion": "2.5.0",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -31,7 +31,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
@@ -42,7 +42,14 @@
 				{
 					"id": -1,
 					"name": "编辑用户信息",
-					"pathName": "pages/userEdit/userEdit"
+					"pathName": "pages/userEdit/userEdit",
+					"query": ""
+				},
+				{
+					"id": 2,
+					"name": "my",
+					"pathName": "pages/my/my",
+					"query": ""
 				}
 			]
 		}
