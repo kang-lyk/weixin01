@@ -2,7 +2,7 @@
 // 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
 
 const cloud = require('wx-server-sdk')
-
+const db = cloud.database()
 // 初始化 cloud
 cloud.init({
     env: 'development-f3b7be'
@@ -20,7 +20,28 @@ exports.main = (event) => {
 
     // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）
     const wxContext = cloud.getWXContext()
-
+    let { 
+        avatarUrl = '',
+        city = '', 
+        countrprovincey = '', 
+        gender = 2, 
+        nickName = ''
+    } = event
+    db.collection('user').add({
+        data: {
+            openid: wxContext.OPENID,
+            appid: wxContext.APPID,
+            unionid: wxContext.UNIONID,
+            avatarUrl, 
+            city, 
+            countrprovincey, 
+            gender, 
+            nickName
+        },
+        complete(res){
+            console.log(res)
+        }
+    })
     return {
         event,
         openid: wxContext.OPENID,

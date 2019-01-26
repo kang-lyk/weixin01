@@ -63,10 +63,13 @@ Page({
     onShareAppMessage: function () {
 
     },
-    register({ detail: { userInfo }}){
+    register({ detail: { userInfo = {} }}){
         wx.cloud.callFunction({
             name: 'login',
             data: userInfo
         })
+            .then(res=>{
+                console.log(res)
+            })
     }
 })
