@@ -2,11 +2,16 @@
 // 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
 
 const cloud = require('wx-server-sdk')
-const db = cloud.database()
 // 初始化 cloud
 cloud.init({
     env: 'development-f3b7be'
 })
+// 初始化数据库
+const weixinDB = cloud.database({
+    env: 'development-f3b7be'
+})
+// const userTable = weixinDB.collection('user')
+
 
 /**
  * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
@@ -27,7 +32,7 @@ exports.main = (event) => {
         gender = 2, 
         nickName = ''
     } = event
-    db.collection('user').add({
+    weixinDB.collection('user').add({
         data: {
             openid: wxContext.OPENID,
             appid: wxContext.APPID,
@@ -42,6 +47,17 @@ exports.main = (event) => {
             console.log(res)
         }
     })
+
+    // weixinDB
+    //     .collection('classification')
+    //     .where({
+    //         name: '废纸'
+    //     })
+    //     .get({
+    //         success(res) {
+    //             console.log(res.data)
+    //         }
+    //     })
     return {
         event,
         openid: wxContext.OPENID,
