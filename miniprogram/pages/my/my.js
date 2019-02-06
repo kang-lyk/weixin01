@@ -64,11 +64,15 @@ Page({
 
     },
     register({ detail: { userInfo = {} }}){
+        
         wx.cloud.callFunction({
             name: 'login',
             data: userInfo
         })
-            .then(res=>{
+            .then(res => {
+                console.log(res)
+            })
+            .catch(res => {
                 console.log(res)
             })
     }

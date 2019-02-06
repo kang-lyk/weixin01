@@ -10,16 +10,35 @@ cloud.init({
 const weixinDB = cloud.database({
     env: 'development-f3b7be'
 })
-// const userTable = weixinDB.collection('user')
+const userTable = weixinDB.collection('user')
 
+/** 查询用户数据 */
+const getUserData = async (openid) => {
+    try {
+        return await userTable.where({
+            openid
+        }).get()
+    } catch (error){
+        console.log(error)
+    }
+}
 
+// const addUserData = async (data) => {
+//     try {
+//         return await userTable.add({
+//             data
+//         }) 
+//     } catch(error) {
+//         console.log(error)
+//     }
+// }
 /**
  * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
  * 
  * event 参数包含小程序端调用传入的 data
  * 
  */
-exports.main = (event) => {
+exports.main = async (event) => {
     // 可执行其他自定义逻辑
     // console.log 的内容可以在云开发云函数调用日志查看
 
@@ -32,36 +51,59 @@ exports.main = (event) => {
         gender = 2, 
         nickName = ''
     } = event
-    weixinDB.collection('user').add({
-        data: {
-            openid: wxContext.OPENID,
-            appid: wxContext.APPID,
-            unionid: wxContext.UNIONID,
-            avatarUrl, 
-            city, 
-            countrprovincey, 
-            gender, 
+    let openid = wxContext.OPENID
+    
+    let userArray = await getUserData(openid)
+    if(userArray.length > 0) {
+        let [{
             nickName
-        },
-        complete(res){
-            console.log(res)
+        }] = userArray
+        return {
+            code: 100200,
+            nickName
         }
-    })
-
-    // weixinDB
-    //     .collection('classification')
-    //     .where({
-    //         name: '废纸'
-    //     })
-    //     .get({
-    //         success(res) {
-    //             console.log(res.data)
-    //         }
-    //     })
-    return {
-        event,
-        openid: wxContext.OPENID,
-        appid: wxContext.APPID,
-        unionid: wxContext.UNIONID,
+    } else {
+        
+        // userTable.add({
+        //     data: {
+        //         openid: wxContext.OPENID,
+        //         appid: wxContext.APPID,
+        //         unionid: wxContext.UNIONID,
+        //         avatarUrl, 
+        //         city, 
+        //         countrprovincey, 
+        //         gender, 
+        //         nickName
+        //     }
+        // })
+        // .then(res => {
+        //     console.log(JSON.stringify(res))
+        // })
+        // .catch( error => {
+        //     console.log(JSON.stringify(error))
+        // })
+        weixinDB.collection('user').add({
+            data: {
+                openid: wxContext.OPENID,
+                appid: wxContext.APPID,
+                unionid: wxContext.UNIONID,
+                avatarUrl,
+                city,
+                countrprovincey,
+                gender,
+                nickName
+            },
+            complete(res) {
+                console.log(JSON.stringify(res))
+            }
+        })
     }
+
+    // return {
+    //     event,
+    //     // openid: wxContext.OPENID,
+    //     // appid: wxContext.APPID,
+    //     // unionid: wxContext.UNIONID,
+    //     // userArray
+    // }
 }

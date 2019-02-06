@@ -26,7 +26,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "no-console": "warn"
+        "no-console": "off"
     },
     "globals": {
         "wx": false,
