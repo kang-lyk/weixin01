@@ -14,37 +14,37 @@ const userTable = weixinDB.collection('user')
 // 云函数入口函数
 exports.main = async (event) => {
     // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）
+    console.log(JSON.stringify(event))
     const wxContext = cloud.getWXContext()
     let {
         avatarUrl = '',
         city = '',
         countrprovincey = '',
         gender = 2,
-        nickName = ''
+        nickName = '',
+        openid = wxContext.OPENID,
+        unionid = wxContext.UNIONID
     } = event
-   
-    let addUserFun = await userTable.add({
-        data: {
-            openid: wxContext.OPENID,
-            unionid: wxContext.UNIONID,
-            avatarUrl, 
-            city, 
-            countrprovincey, 
-            gender, 
-            nickName
+    try{
+        await userTable.add({
+            data: {
+                openid,
+                unionid,
+                avatarUrl, 
+                city, 
+                countrprovincey, 
+                gender, 
+                nickName
+            }
+        }) 
+        return {
+            code: 200
         }
-    }) 
-    addUserFun
-        .then(()=>{
-            return {
-                code: 200
-            }
-        })
-        .catch((error) => {
-            return {
-                code: 100003,
-                error
-            }
-        })
-    
+    } catch(error) {
+        return {
+            code: 100003,
+            msg: '添加用户失败',
+            error
+        }
+    }
 }

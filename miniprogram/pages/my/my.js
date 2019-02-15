@@ -64,16 +64,27 @@ Page({
 
     },
     register({ detail: { userInfo = {} }}){
-        
+        this.setData({
+            loading: true,
+            disabled: true
+        })
         wx.cloud.callFunction({
             name: 'login',
             data: userInfo
         })
             .then(res => {
                 console.log(res)
+                this.setData({
+                    loading: false,
+                    disabled: false
+                })
             })
             .catch(res => {
                 console.log(res)
+                this.setData({
+                    loading: false,
+                    disabled: false
+                })
             })
     }
 })
